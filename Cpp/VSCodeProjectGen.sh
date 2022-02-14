@@ -187,7 +187,7 @@ cat << 'EOF' > ./${ProjectName}/.vscode/tasks.json
     {
       "label": "Cmake",
       "type": "shell",
-      "command": "../buildScript.sh",
+      "command": "bash ../buildScript.sh",
       "problemMatcher": [
         "$gcc"
       ]
