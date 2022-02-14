@@ -75,6 +75,7 @@ EOF
 
 #--- Build script 
 cat << 'EOF' > ./${ProjectName}/buildScript.sh
+#!/bin/bash
 cd ./build
 if [[ -f CMakeCache.txt ]]; then
   rm -rf CMakeCache.txt && echo "CMakeCache file was deleted.!"
@@ -156,7 +157,7 @@ cat << EOF > ./${ProjectName}/.vscode/launch.json
       "stopAtEntry": false,
       "cwd": "\${workspaceFolder}/build",
       "environment": [],
-      "externalConsole": true,
+      "externalConsole": false,
       "MIMode": "gdb",
       "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",
       "setupCommands": [
@@ -174,12 +175,7 @@ EOF
 
 cat << 'EOF' > ./${ProjectName}/.vscode/tasks.json
 {
-  // See https://go.microsoft.com/fwlink/?LinkId=733558
-  // for the documentation about the tasks.json format
   "version": "2.0.0",
-  "windows": {
-    "command": "powershell"
-   },
   "options": {
     "cwd": "${workspaceRoot}/build"
   },
@@ -187,7 +183,12 @@ cat << 'EOF' > ./${ProjectName}/.vscode/tasks.json
     {
       "label": "Cmake",
       "type": "shell",
-      "command": "bash ../buildScript.sh",
+      "windows":{
+        "command": "bash ../buildScript.sh"
+      },
+      "linux":{
+        "command": "../buildScript.sh"
+      },
       "problemMatcher": [
         "$gcc"
       ]
