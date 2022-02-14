@@ -6,17 +6,17 @@ do
     read -p $'\e[91mProject name [a-z][A-Z[0-9]! :\e[0m ' ProjectName
 done
     mkdir -p ./${ProjectName}/src ./${ProjectName}/include ./${ProjectName}/build ./${ProjectName}/bin
-    echo -e "\e[93mProject ${ProjectName} was created\e[0m" 
+    echo -e "\e[93mProject ${ProjectName} was created\e[0m"
 #--- Create source file
 read -p 'Make source file (Ex. main.cpp) : ' cppFile
 if [[ $cppFile == *.cpp ]]
-then 
+then
     touch ./${ProjectName}/src/${cppFile}
     echo -e "\e[93mFile ${cppFile} was created\e[0m"
 elif [[ $cppFile == '' ]]
 then
     touch ./${ProjectName}/src/main.cpp
-    echo -e "\e[93mFile main.cpp  was created\e[0m" 
+    echo -e "\e[93mFile main.cpp  was created\e[0m"
 #--- Header adn main() gen
     echo '#include <iostream>
 using namespace std;
@@ -49,14 +49,15 @@ do
     read -p $'\e[91m!!Execute file name:\e[0m ' CMakeExecuteName
 done
 #--- C++ Standard
-read -p 'C++ Standard (Ex. 11, 14, 17 ,20): ' getCPPstd 
+read -p 'C++ Standard (Ex. 11, 14, 17 ,20): ' getCPPstd
 CPPstd=(11 14 17 20)
 if ! [[ ${CPPstd[*]} =~ $getCPPstd ]] || [[ $getCPPstd == '' ]]
 then
-    getCPPstd=11 
+    getCPPstd=11
 fi
-
-echo "cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
+#--- CMakeLists.txt
+cmake_minimum_version=$(cmake -version | head -n 1 | awk '{print $3}')
+echo "cmake_minimum_required(VERSION ${cmake_minimum_version} FATAL_ERROR)
 project(${CMakeProjectName} C CXX)
 
 set(CMAKE_CXX_STANDARD ${getCPPstd})
@@ -70,7 +71,7 @@ set(EXECUTABLE_OUTPUT_PATH \"\${CMAKE_SOURCE_DIR}/bin\")
 include_directories(include)
 file(GLOB SOURCES \"src/*.cpp\")
 add_executable(${CMakeExecuteName} \"\${SOURCES}\")" >> ./${ProjectName}/CMakeLists.txt
-#--- Build script 
+#--- Build script
 echo '#!/bin/bash
 ##
 cd ./build
