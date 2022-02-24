@@ -73,7 +73,7 @@ file(GLOB SOURCES "src/*.cpp")
 add_executable(${CMakeExecuteName} "\${SOURCES}")
 # fine SFML package : use "pkgconf --list-all | grep sfml" for show packages
 find_package(SFML 2 REQUIRED network audio graphics window system)
-target_link_libraries(alice
+target_link_libraries(${CMakeExecuteName}
 sfml-graphics 
 sfml-window 
 sfml-audio 
