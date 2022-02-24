@@ -71,6 +71,14 @@ set(EXECUTABLE_OUTPUT_PATH "\${CMAKE_SOURCE_DIR}/bin")
 include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 add_executable(${CMakeExecuteName} "\${SOURCES}")
+# fine SFML package : use "pkgconf --list-all | grep sfml" for show packages
+find_package(SFML 2 REQUIRED network audio graphics window system)
+target_link_libraries(alice
+sfml-audio 
+sfml-graphics 
+sfml-network 
+sfml-system 
+sfml-window)
 EOF
 
 #--- Build script 
