@@ -17,12 +17,29 @@ elif [[ "${cppFile}" == '' ]]; then
 #--- Header and main() gen
 cat << 'EOF' > ./${ProjectName}/src/main.cpp
 #include <iostream>
-using namespace std;
+#include <vector>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
 
 int main() {
-  cout<<"Hello World!"<<endl;
-  return 0;
+    sf::RenderWindow window(sf::VideoMode(800, 600), "window");
+    window.setFramerateLimit(60);
+
+    while(window.isOpen()) {
+        sf::Event event;
+        while(window.pollEvent(event)) {
+            if(event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+        // Display
+        window.clear(sf::Color::Black);
+        window.display();
+    }
+    return 0;
 }
+
 EOF
 else
   touch ./${ProjectName}/src/${cppFile}.cpp
@@ -30,12 +47,29 @@ else
   #--- Header adn main() gen
 cat << 'EOF' > ./${ProjectName}/src/${cppFile}.cpp
 #include <iostream>
-using namespace std;
+#include <vector>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
 
 int main() {
-  cout<<"Hello World!"<<endl;
-  return 0;
+    sf::RenderWindow window(sf::VideoMode(800, 600), "window");
+    window.setFramerateLimit(60);
+
+    while(window.isOpen()) {
+        sf::Event event;
+        while(window.pollEvent(event)) {
+            if(event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+        // Display
+        window.clear(sf::Color::Black);
+        window.display();
+    }
+    return 0;
 }
+
 EOF
 fi
 
