@@ -1,7 +1,7 @@
 #!/bin/bash
 
 read -p 'Project Name: ' ProjectName
-while [[ $ProjectName == '' || $ProjectName == *['!'@#\$%^\&*()_+]* ]]
+while [[ $ProjectName == '' || $ProjectName == *['!'@#\$%^\&*().+]* ]]
 do
     read -p $'\e[91mProject name [a-z][A-Z[0-9]! :\e[0m ' ProjectName
 done
@@ -13,27 +13,43 @@ if [[ $cppFile == *.cpp ]]
 then
     touch ./${ProjectName}/src/${cppFile}
     echo -e "\e[93mFile ${cppFile} was created\e[0m"
+#--- Add code simple
+cat << 'EOF' > ./${ProjectName}/src/${cppFile}
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout<<"Hello World!"<<endl;
+    return 0;
+}
+EOF
 elif [[ $cppFile == '' ]]
 then
     touch ./${ProjectName}/src/main.cpp
     echo -e "\e[93mFile main.cpp  was created\e[0m"
-#--- Header adn main() gen
-    echo '#include <iostream>
+#--- Add code simple
+cat << 'EOF' > ./${ProjectName}/src/main.cpp
+#include <iostream>
 using namespace std;
+
 int main() {
     cout<<"Hello World!"<<endl;
     return 0;
-}' >> ./${ProjectName}/src/main.cpp
+}
+EOF
 else
     touch ./${ProjectName}/src/${cppFile}.cpp
     echo -e "\e[93mFile ${cppFile}.cpp was created\e[0m"
-    #--- Header adn main() gen
-    echo '#include <iostream>
+#--- Add code simple
+cat << 'EOF' > ./${ProjectName}/src/${cppFile}.cpp
+#include <iostream>
 using namespace std;
+
 int main() {
     cout<<"Hello World!"<<endl;
     return 0;
-}' >> ./${ProjectName}/src/${cppFile}.cpp
+}
+EOF
 fi
 
 #--- CMake Project Name

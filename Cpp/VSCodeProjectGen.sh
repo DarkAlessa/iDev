@@ -1,7 +1,7 @@
 #!/bin/bash
 
 read -p 'Project Name: ' ProjectName
-while [[ "${ProjectName}" == '' || "${ProjectName}" == *['!'@#\$%^\&*()_+]* ]]; do
+while [[ "${ProjectName}" == '' || "${ProjectName}" == *['!'@#\$%^\&*().+]* ]]; do
   read -p $'\e[91mProject name [a-z][A-Z[0-9]! :\e[0m ' ProjectName
 done
 mkdir -p ./${ProjectName}/src ./${ProjectName}/include ./${ProjectName}/build ./${ProjectName}/bin
@@ -11,10 +11,20 @@ read -p 'Make source file (Ex. main.cpp) : ' cppFile
 if [[ "${cppFile}" == *.cpp ]]; then 
   touch ./${ProjectName}/src/${cppFile}
   echo -e "\e[93mFile ${cppFile} was created\e[0m"
+#--- Add code simple
+cat << 'EOF' > ./${ProjectName}/src/${cppFile}
+#include <iostream>
+using namespace std;
+
+int main() {
+  cout<<"Hello World!"<<endl;
+  return 0;
+}
+EOF
 elif [[ "${cppFile}" == '' ]]; then
   touch ./${ProjectName}/src/main.cpp
-  echo -e "\e[93mFile main.cpp  was created\e[0m" 
-#--- Header and main() gen
+  echo -e "\e[93mFile main.cpp  was created\e[0m"
+#--- Add code simple
 cat << 'EOF' > ./${ProjectName}/src/main.cpp
 #include <iostream>
 using namespace std;
@@ -27,7 +37,7 @@ EOF
 else
   touch ./${ProjectName}/src/${cppFile}.cpp
   echo -e "\e[93mFile ${cppFile}.cpp was created\e[0m"
-  #--- Header adn main() gen
+#--- Add code simple
 cat << 'EOF' > ./${ProjectName}/src/${cppFile}.cpp
 #include <iostream>
 using namespace std;
