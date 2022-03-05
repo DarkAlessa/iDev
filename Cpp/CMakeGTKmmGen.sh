@@ -75,7 +75,8 @@ then
     getCPPstd=11 
 fi
 
-echo "CMAKE_MINIMUM_REQUIRED(VERSION 3.17 FATAL_ERROR)
+cat << EOF > ./${ProjectName}/CMakeLists.txt
+CMAKE_MINIMUM_REQUIRED(VERSION 3.17 FATAL_ERROR)
 PROJECT(${CMakeProjectName} C CXX)
 
 SET(CMAKE_CXX_STANDARD ${getCPPstd})
@@ -84,7 +85,7 @@ SET(CMAKE_CXX_EXTENSIONS OFF)
 SET(CMAKE_BUILD_TYPE Debug)
 SET(CMAKE_BUILD_TYPE Release)
 
-SET(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
+SET(EXECUTABLE_OUTPUT_PATH "\${CMAKE_SOURCE_DIR}/bin")
 
 # Use the package PkgConfig to detect GTKmm headers/library files
 FIND_PACKAGE(PkgConfig REQUIRED)
@@ -97,7 +98,7 @@ INCLUDE_DIRECTORIES(\${GTKMM_INCLUDE_DIRS} include)
 LINK_DIRECTORIES(\${GTKMM_LIBRARY_DIRS})
 
 # Source files
-FILE(GLOB SOURCES \"src/*.cpp\")
+FILE(GLOB SOURCES "src/*.cpp")
 
 # Add other flags to the compiler
 ADD_DEFINITIONS(\${GTKMM_CFLAGS_OTHER})
@@ -106,10 +107,12 @@ ADD_DEFINITIONS(\${GTKMM_CFLAGS_OTHER})
 ADD_EXECUTABLE(${CMakeExecuteName} \${SOURCES})
 
 # Link the target to the GTKmm libraries
-TARGET_LINK_LIBRARIES(${CMakeExecuteName} \${GTKMM_LIBRARIES})" >> ./${ProjectName}/CMakeLists.txt
+TARGET_LINK_LIBRARIES(${CMakeExecuteName} \${GTKMM_LIBRARIES})
+EOF
 
 #--- Build script 
-echo '#!/bin/bash
+cat << 'EOF' > ./${ProjectName}/buildScript.sh
+#!/bin/bash
 ##
 cd ./build
 if [[ -f CMakeCache.txt ]]
@@ -120,8 +123,9 @@ else
 fi
 ##
 cmake -G "MSYS Makefiles" ../
-cd ../' >> ./${ProjectName}/buildScript.sh
-#
+cd ../
+EOF
+
 echo "-------------------------------"
 tree ${ProjectName}
 echo "-------------------------------"

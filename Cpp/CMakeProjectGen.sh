@@ -71,24 +71,30 @@ if ! [[ ${CPPstd[*]} =~ $getCPPstd ]] || [[ $getCPPstd == '' ]]
 then
     getCPPstd=11
 fi
+
 #--- CMakeLists.txt
 cmake_minimum_version=$(cmake -version | head -n 1 | awk '{print $3}')
-echo "cmake_minimum_required(VERSION ${cmake_minimum_version} FATAL_ERROR)
+
+cat << EOF > ./${ProjectName}/CMakeLists.txt
+cmake_minimum_required(VERSION ${cmake_minimum_version} FATAL_ERROR)
 project(${CMakeProjectName} C CXX)
 
 set(CMAKE_CXX_STANDARD ${getCPPstd})
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CXX_FLAGS \"\${CMAKE_CXX_FLAGS} -Wall\")
+set(CMAKE_CXX_FLAGS "\${CMAKE_CXX_FLAGS} -Wall")
 
-set(EXECUTABLE_OUTPUT_PATH \"\${CMAKE_SOURCE_DIR}/bin\")
+set(EXECUTABLE_OUTPUT_PATH "\${CMAKE_SOURCE_DIR}/bin")
 
 include_directories(include)
-file(GLOB SOURCES \"src/*.cpp\")
-add_executable(${CMakeExecuteName} \"\${SOURCES}\")" >> ./${ProjectName}/CMakeLists.txt
+file(GLOB SOURCES "src/*.cpp")
+add_executable(${CMakeExecuteName} "\${SOURCES}")
+EOF
+
 #--- Build script
-echo '#!/bin/bash
+cat << 'EOF' > ./${ProjectName}/buildScript.sh
+#!/bin/bash
 ##
 cd ./build
 if [[ -f CMakeCache.txt ]]
@@ -99,8 +105,9 @@ else
 fi
 ##
 cmake -G "MSYS Makefiles" ../
-cd ../' >> ./${ProjectName}/buildScript.sh
-#
+cd ../
+EOF
+
 echo "-------------------------------"
 tree ${ProjectName}
 echo "-------------------------------"
