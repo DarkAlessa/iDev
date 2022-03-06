@@ -6,11 +6,11 @@ do
     read -p $'\e[91mProject name [a-z][A-Z[0-9]! :\e[0m ' ProjectName
 done
     mkdir -p ./${ProjectName}/src ./${ProjectName}/include ./${ProjectName}/build ./${ProjectName}/bin
-    echo -e "\e[93mProject ${ProjectName} was created\e[0m" 
+    echo -e "\e[93mProject ${ProjectName} was created\e[0m"
+
 #--- Create source file
 read -p 'Make source file (Ex. main.cpp) : ' cppFile
-if [[ "${cppFile}" == *.cpp ]]
-then 
+if [[ "${cppFile}" == *.cpp ]]; then 
     touch ./${ProjectName}/src/${cppFile}
     echo -e "\e[93mFile ${cppFile} was created\e[0m"
 #--- Add code simple
@@ -24,8 +24,7 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 EOF
-elif [[ "${cppFile}" == '' ]]
-then
+elif [[ "${cppFile}" == '' ]]; then
     touch ./${ProjectName}/src/main.cpp
     echo -e "\e[93mFile main.cpp  was created\e[0m"
 #--- Add code simple
@@ -75,6 +74,7 @@ then
     getCPPstd=11 
 fi
 
+#--- CMakeLists.txt
 cat << EOF > ./${ProjectName}/CMakeLists.txt
 CMAKE_MINIMUM_REQUIRED(VERSION 3.17 FATAL_ERROR)
 PROJECT(${CMakeProjectName} C CXX)

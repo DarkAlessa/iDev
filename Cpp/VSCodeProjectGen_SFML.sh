@@ -5,7 +5,8 @@ while [[ "${ProjectName}" == '' || "${ProjectName}" == *['!'@#\$%^\&*().+]* ]]; 
   read -p $'\e[91mProject name [a-z][A-Z[0-9]! :\e[0m ' ProjectName
 done
 mkdir -p ./${ProjectName}/src ./${ProjectName}/include ./${ProjectName}/build ./${ProjectName}/bin
-echo -e "\e[93mProject ${ProjectName} was created\e[0m" 
+echo -e "\e[93mProject ${ProjectName} was created\e[0m"
+
 #--- Create source file
 read -p 'Make source file (Ex. main.cpp) : ' cppFile
 if [[ "${cppFile}" == *.cpp ]]; then 
@@ -273,4 +274,3 @@ EOF
 echo "-------------------------------"
 tree ${ProjectName}
 echo "-------------------------------"
-
